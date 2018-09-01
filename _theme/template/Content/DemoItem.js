@@ -54,7 +54,7 @@ export default class DemoItem extends React.Component {
           this.props.isWide && this.state.intoViewport ? <Col span={12} className="demo-item-preview">
             <div className="code-preview">{props.children}</div>
             <div className="mobile-preview"></div>
-            </Col> : null
+          </Col> : null
         }
 
       </Row>

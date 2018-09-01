@@ -37,7 +37,7 @@ export default class SideMenu extends React.Component {
   render() {
     const { data, defaultSelectedKey, type} = this.props;
     if (type === 'components') {
-      return <ComponentsMenu mode={this.state.mode} data={data.components} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
+      return <ComponentsMenu mode={this.state.mode} data={data['rax-map']['components']} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
     } else if (type === 'articles') {
       return <ArticlesMenu mode={this.state.mode} data={data.articles} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
     }

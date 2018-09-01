@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DemoItem from './DemoItem';
 
-export default class DemoArticle extends React.Component {
+export default class DemoSubArticle extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -32,20 +32,30 @@ export default class DemoArticle extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.changeLayout);
   }
+
   render() {
     const props = this.props;
     const {pageData,childName} = props;
     const key = childName.children;
     const item =  pageData.demo[key];
     const content = props.utils.toReactComponent(['div'].concat(item.content));
-    return (<DemoItem
+
+    const demoComponent = (<DemoItem
         key={0}
         title={item.meta.title}
         content={content}
         code={props.utils.toReactComponent(item.highlightedCode)}
         isWide={this.state.isWide}
     >
-      { this.state.isWide ? item.preview(React, ReactDOM) : null}
+      {/*{ this.state.isWide ? item.preview(React, ReactDOM) : null}*/}
+      { this.state.isWide ?
+          (setTimeout(()=>{ // 延迟能够找到 mountNode 对象
+              window.mountNode = document.querySelector('.code-preview');
+              if(!window.mountNode)return;
+              window.React = require('rax');
+              item.preview(); // run md 的 code 的关键命令
+          },500))&&console.log('delay mountNode!')
+          : null}
     </DemoItem>);
     const pageContent = pageData.index.content;
     const pageAPI = pageData.index.api;

@@ -1,5 +1,5 @@
 import React from 'react';
-import AMap from 'react-amap';
+import AMap from 'rax-map';
 require('../static/playground.less');
 
 const InfoWindow = AMap.InfoWindow;

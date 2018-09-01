@@ -12,19 +12,21 @@ export default class Doc extends React.Component {
 
   getLevel1Eement(props) {
     let type;
-    if (props.pageData.demo) {
+    const {routeParams, utils, pageData} = props;
+    if (pageData.demo) {
       type = 'demo';
     }
     console.log('type1:::', type, props)
     return (type === 'demo'
-            ? <DemoArticle routeParams={props.routeParams} pageData={props.pageData} utils={props.utils}/>
-            : <PureArticle pageData={props.pageData} utils={props.utils}/>
+            ? <DemoArticle routeParams={routeParams} pageData={pageData} utils={utils}/>
+            : <PureArticle pageData={pageData} utils={utils}/>
     )
   }
 
   getLevel2Eement(props) {
-    return <DemoSubArticle routeParams={props.routeParams} pageData={props.pageData} childName={props.params}
-                           utils={props.utils}/>
+    const {routeParams, utils, pageData, params} = props;
+    return <DemoSubArticle routeParams={routeParams} pageData={pageData} childName={params}
+                           utils={utils}/>
   }
 
   render() {

@@ -47,7 +47,7 @@ export default class DemoArticle extends React.Component {
           code={props.utils.toReactComponent(item.highlightedCode)}
           isWide={this.state.isWide}
         >
-          { this.state.isWide ? item.preview(React, ReactDOM) : null}
+          {/*{ this.state.isWide ? item.preview(React, ReactDOM) : null}*/}
         </DemoItem>);
       });
     const pageContent = pageData.index.content;

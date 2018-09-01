@@ -1,33 +1,27 @@
 {
-  "name": "react-amap",
-  "version": "1.2.7",
-  "description": "AMap Component Based On React",
+  "name": "rax-map",
+  "version": "0.0.1",
+  "description": "rax-map",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "lint": "eslint . --quiet",
-    "browser-build": "rm -rf dist && webpack && NODE_ENV=production webpack -p",
-    "npm-build": "rm -rf lib && babel components -d lib",
-    "site": "npm run npm-build && bisheng build",
-    "deploy": "npm run npm-build && bisheng gh-pages",
-    "start": "npm run npm-build && bisheng start",
-    "prepublish": "npm run browser-build && npm run npm-build",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "bs-start":"bisheng start"
+    "site": "bisheng build",
+    "deploy": "bisheng gh-pages",
+    "start": "bisheng start"
   },
-  "author": "ohislh@gmail.com",
+  "author": "zhu.yan@alibaba-inc.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elemefe/react-amap.git"
+    "url": ""
   },
   "keywords": [
     "map",
     "react"
   ],
   "bugs": {
-    "url": "https://github.com/ElemeFE/react-amap/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/ElemeFE/react-amap",
+  "homepage": "",
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^16.0.10",
@@ -63,5 +57,12 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
+  },
+  "dependencies": {
+    "rax": "^0.6.5",
+    "rax-picture": "^0.6.6",
+    "rax-text": "^0.6.5",
+    "rax-view": "^0.6.5",
+    "replace-in-file": "^3.4.2"
   }
 }

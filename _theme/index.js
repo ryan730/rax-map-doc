@@ -5,9 +5,10 @@ module.exports = {
   home: '/',
   routes: [{
     path: '/',
-    component: './template/Redirect'
+    //component: './template/Redirect'
+    component: './template/Cover'
   }, {
-    path: '/components/:doc',
+    path: '/rax-map/components/:doc',
     component: './template/Components',
     // indexRoute: { component: './template/Articles' },
     childRoutes: [{

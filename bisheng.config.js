@@ -1,7 +1,8 @@
+var webpack =  require('webpack');
 var path = require('path');
 
 module.exports = {
-  source: ['./components', './articles', 'CHANGELOG.md'],
+  source: ['./rax-map', './articles', 'CHANGELOG.md'],
   output: './_site',
   entry: {
     index: {
@@ -15,11 +16,20 @@ module.exports = {
   ],
   port: 9001,
   webpackConfig(config) {
+    // config.externals = {
+    //   'React': 'react'
+    // },
+    // config.plugins = [
+    //   new webpack.ProvidePlugin({
+    //     "React": "react",
+    //   }),
+    // ],
     config.resolve.alias = {
-      'react-amap': path.join(process.cwd(), 'components'),
+      'rax-map': path.join(process.cwd(), 'rax-map'),
+      //'libs': path.join(process.cwd(), 'libs'),
       'react-router': 'react-router/umd/ReactRouter'
     };
     return config;
   },
-  root: '/react-amap/'
+  root: ''
 };

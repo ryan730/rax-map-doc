@@ -15,9 +15,9 @@ const componentOrder = [
 ];
 
 const params = location.pathname.split('/');
-if (params[1] === 'components') {
-  params[2] && (whoIsOpen.level1 = params[2]);
-  params[3] && (whoIsOpen.level2 = params[3]);
+if (params[1] === 'rax-map'&&params[2] === 'components') {
+  params[3] && (whoIsOpen.level1 = params[3]);
+  params[4] && (whoIsOpen.level2 = params[4]);
 }
 console.log('url传递的参数:', params,whoIsOpen);
 
@@ -106,7 +106,7 @@ export default function ComponentsMenu(props) {
             selectedKeys={[defaultSelectedKey]}
   >
     <Menu.Item key="about">
-      <Link to="/components/about">基本介绍</Link>
+      <Link to="/rax-map/components/about">基本介绍</Link>
     </Menu.Item>
     <SubMenu key={'components'} title={'组件'}>
       {getComponentsMenuGroups(data)}
