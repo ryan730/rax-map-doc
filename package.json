@@ -21,7 +21,7 @@
   "bugs": {
     "url": ""
   },
-  "homepage": "",
+  "homepage": "https://ryan730.github.io/rax-map-doc",
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^16.0.10",
