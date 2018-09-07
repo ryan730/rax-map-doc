@@ -160,17 +160,19 @@ class UIMarker extends PureComponent {
   }
 
   render() {
-    return (<View id="pickerBox" style={pickerBox}>
-               <input id="pickerInput" style={pickerInput} placeholder="输入关键字选取地点" />
-               <View id="poiInfo" style={poiInfo}></View>
-           </View>);
+    return (null);
   }
 }
 
 const MyApp = (<div style={{width: '100%', height: '100%'}}>
       <Map zoom={12} center={[116.417, 39.88]} useAMapUI={true} >
         <UIMarker/>
-      </Map></div>);
+      </Map>
+      <View id="pickerBox" style={pickerBox}>
+         <input id="pickerInput" style={pickerInput} placeholder="输入关键字选取地点" />
+         <View id="poiInfo" style={poiInfo}></View>
+      </View>
+      </div>);
 
 render(
   MyApp,
