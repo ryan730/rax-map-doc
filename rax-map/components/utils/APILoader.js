@@ -13,8 +13,8 @@ let mainPromise = null;
 let amapuiPromise = null;
 let amapuiInited = false;
 export default class APILoader {
-  constructor({ key, useAMapUI, version, protocol }) {
-    this.config = { ...DEFAULT_CONFIG, useAMapUI, protocol };
+  constructor({key, useAMapUI, version, protocol, loading}) {
+    this.config = {...DEFAULT_CONFIG, useAMapUI, protocol, loading};
     if (typeof window !== 'undefined') {
       if (key) {
         this.config.key = key;
@@ -71,27 +71,30 @@ export default class APILoader {
     if (typeof window === 'undefined') {
       return null;
     }
-    const { useAMapUI } = this.config;
+    const {useAMapUI, loading} = this.config;
     mainPromise = mainPromise || this.getMainPromise();
     if (useAMapUI) {
       amapuiPromise = amapuiPromise || this.getAmapuiPromise();
     }
+    console.log('loadingloadingloadingloading:',loading)
     return new Promise(resolve => {
       mainPromise.then(() => {
-        if (useAMapUI && amapuiPromise) {
-          amapuiPromise.then(() => {
-            if (window.initAMapUI && !amapuiInited) {
-              window.initAMapUI();
-              if (typeof useAMapUI === 'function') {
-                useAMapUI();
+        setTimeout(() => {
+          if (useAMapUI && amapuiPromise) {
+            amapuiPromise.then(() => {
+              if (window.initAMapUI && !amapuiInited) {
+                window.initAMapUI();
+                if (typeof useAMapUI === 'function') {
+                  useAMapUI();
+                }
+                amapuiInited = true;
               }
-              amapuiInited = true;
-            }
+              resolve();
+            });
+          } else {
             resolve();
-          });
-        } else {
-          resolve();
-        }
+          }
+        }, loading.time || 0);
       });
     });
   }

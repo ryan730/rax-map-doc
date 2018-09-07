@@ -80,6 +80,8 @@ if (typeof window !== 'undefined') {
   headEl.appendChild(styleEl);
 }
 
+// const Component = PureComponent;
+
 const SCALE = 0.8;
 const SIZE_WIDTH = 32 * SCALE;
 const SIZE_HEIGHT = 46 * SCALE - 2;
@@ -118,7 +120,6 @@ const IdKey = '__react_amap__';
 
 class Markers extends PureComponent {
   static displayName = 'Markers';
-
   map;
   element;
   markersCache;
@@ -185,6 +186,10 @@ class Markers extends PureComponent {
       }
       options.content = markerContent;
       const marker = new window.AMap.Marker(options);
+      if (!window.aaa) {
+        window.aaa = 0;
+      }
+      window.aaa++;
       marker.on('click', (e) => {
         this.onMarkerClick(e);
       });
@@ -204,8 +209,8 @@ class Markers extends PureComponent {
         this.onMarkerTouchmove(e);
       });
 
-      marker.render = (function(marker) {
-        return function(component) {
+      marker.render = (function (marker) {
+        return function (component) {
           return renderMarkerComponent(component, marker);
         };
       }(marker));
@@ -213,7 +218,11 @@ class Markers extends PureComponent {
       this.bindMarkerEvents(marker);
       mapMarkers.push(marker);
       // 做每个marker的唯一性标记,用于比较marker的交并关系,isArea是为了处理是否是区域聚合
-      raw.createdHash = hash({longitude: options.position.lng, latitude: options.position.lat, isArea: options.extData.isArea});
+      raw.createdHash = hash({
+        longitude: options.position.lng,
+        latitude: options.position.lat,
+        isArea: options.extData.isArea
+      });
       raw.hashPosition = {longitude: options.position.lng, latitude: options.position.lat};
       raw.feature = marker;
       raw.cacheIndex = mapMarkers.indexOf(marker);
@@ -347,43 +356,48 @@ class Markers extends PureComponent {
 
   refreshMarkersLayout(nextProps) {
     const markerChanged = (nextProps.markers !== this.props.markers);
-    // || (nextProps.markers.length === 0 && this.props.markers.length === 0);
     const clusterChanged = ((!!this.props.useCluster) !== (!!nextProps.useCluster));
-    const relationship = this.pruneCache(nextProps.markers, this.props.markers);
-    const keepCache = relationship.same; // 交集
-    const filterCache = relationship.diff; // 差集
-    // console.log('╔═════════════════════════════refresh═════════════════════════════╗');
-    // console.log('数据发生变化:', markerChanged);
-    // console.log('差集:', filterCache, '数量:', filterCache.length);
-    // console.log('交集:', keepCache, '数量:', keepCache.length);
-    // console.log('新数据:', nextProps.markers, '数量:', nextProps.markers.length);
-    // console.log('旧数据:', this.props.markers, '数量:', this.props.markers.length);
-    // console.log('旧cache:', this.markersCache, '数量:', this.markersCache.length);
-    // console.log('╚══════════════════════════════════════════════════════════════════╝');
     if (markerChanged) {
+      const relationship = this.pruneCache(nextProps.markers, this.props.markers);
+      const keepCache = relationship.same;
+      const filterCache = relationship.diff;
+      // console.log('╔═════════════════════════════refresh═════════════════════════════╗');
+      // console.log('数据发生变化:', markerChanged);
+      // console.log('差集:', filterCache, '数量:', filterCache.length);
+      // console.log('交集:', keepCache, '数量:', keepCache.length);
+      // console.log('新数据:', nextProps.markers, '数量:', nextProps.markers.length);
+      // console.log('旧数据:', this.props.markers, '数量:', this.props.markers.length);
+      // console.log('旧cache:', this.markersCache, '数量:', this.markersCache.length);
+      // console.log('╚══════════════════════════════════════════════════════════════════╝');
+
       // keepLive=false,清空所有marker
       // keepCache=[ ] 表示新旧数据对比,没有任何的重复,说明数据彻底做了刷新
-      console.warn('keepCache.length1:',this.keepLive,keepCache.length,filterCache,this.props.markers)
+      this.props.useCluster && (this.keepLive = false); // 目前 keeLive 与 useCluster 是互斥关系,不能同时使用;
+
+      /// 如果keepLive=true,只在改变级别时或者远距离改变中心点时,全清数据。
+      /// 如果keepLive=false,每次改变 markers 数组就触发。
+      /// 优化策略 keepLive = true,只记录增量。keepLive=false,全量刷新,如果此时markers巨大,同时又没有做 useCluster,内存会瞬间陡增。
       if (!this.keepLive || !keepCache.length) {
-        // this.markersCache.length && this.markersCache.forEach((marker) => {
-        this.props.markers.length && this.props.markers.forEach((item) => {
-          let marker = item.feature;
-          if (marker) {
-            marker.setMap(null);
-            marker = null;
-            item = null;
-          }
-        }
+        let clearList = (this.props.useCluster) || (!this.props.useCluster && !this.keepLive) ? this.markersCache : this.props.markers;
+        window.clearList = clearList;
+        clearList.length && clearList.forEach((item) => {
+              let marker = !(item.setMap instanceof Function) ? item.feature : item;
+              if (marker) {
+                setTimeout((mk) => { // 延迟使删除之前 marker 在队列结尾执行
+                  mk.setMap(null);
+                  mk = null;
+                }, 0, marker)
+              }
+            }
         );
-        console.warn('keepCache.length2:',this.keepLive,keepCache.length,this.props.markers)
       }
       this.markersCache = defaultOpts.markersCache;// markersCache 归零
       // draw和redraw
       if (markerChanged && (!this.keepLive || !keepCache.length)) {
         this.createMarkers(nextProps);
-        setTimeout(()=>{ // 这里加入延迟,就能看的keepLive全部刷新和部分刷新的不同,延迟时间越长闪烁越明显。
-          this.setMarkerChild();
-        },0)
+        /// setTimeout(()=>{ // 打开这里注释,可以看到全屏刷新和局部刷新的差别。
+        this.setMarkerChild();
+        /// },0)
 
       } else {
         let realProps = {};
@@ -392,7 +406,7 @@ class Markers extends PureComponent {
         });
         realProps.markers = filterCache;
         this.createMarkers(realProps);
-        this.refreshMarkerChild(filterCache); // 这里不能异步渲染
+        this.refreshMarkerChild(filterCache);
       }
     }
     if (markerChanged || (clusterChanged)) {
@@ -421,14 +435,20 @@ class Markers extends PureComponent {
   * 聚合的默认样式,追踪marker的style样式(目前只支持默认样式)。
   */
   renderCluserMarker(context, scope) {
-    var count = 1;
-    var factor = Math.pow(context.count / count, 1 / 18);
-    var div = document.createElement('div');
-    div.innerHTML = context.count;
+    const count = 1;
+    const factor = Math.pow(context.count / count, 1 / 18);
+    const div = document.createElement('div');
+    /// div.innerHTML = context.count;
+    let nums = 0;
+    context.markers.map((marker) => {
+      nums += parseInt(marker.getExtData().count);
+    })
+    div.innerHTML = `本区域共计有(${nums})套房源`;
     let masterContext = context.markers[context.count - 1];
     let childContext = masterContext.getContent().children[0];// 获取marker的样式
     if (childContext && childContext.children[0]) {
       let mStyle = childContext.children[0].style.cssText;
+      mStyle += `min-width:160px;padding:0 10px;`;
       div.style.cssText = mStyle;
     }
     context.marker.setContent(div);
@@ -444,11 +464,11 @@ class Markers extends PureComponent {
     const defalutOptions = {
       scope: this,
       minClusterSize: 2,
-      zoomOnClick: false,
-      maxZoom: 18,
-      gridSize: 81,
+      zoomOnClick: true,
+      maxZoom: 14,
+      gridSize: 50,
       // styles: [style, style, style],
-      averageCenter: true,
+      averageCenter: false, // 聚合点的图标位置是否是所有聚合内点的中心点。默认为否，即聚合点的图标位置位于聚合内的第一个点处
       renderCluserMarker: this.renderCluserMarker
     };
     ClusterProps.forEach((key) => {
@@ -467,7 +487,7 @@ class Markers extends PureComponent {
       }
     }
     this.initClusterMarkerWindow();
-    this.bindClusterEvent(events);
+    /// this.bindClusterEvent(events); // ryan+,关闭cluser的事件自定义,默认展开
     return this.mapCluster;
   }
 

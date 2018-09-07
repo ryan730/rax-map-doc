@@ -15,11 +15,11 @@ const componentOrder = [
 ];
 
 const params = location.pathname.split('/');
-if (params[1] === 'rax-map'&&params[2] === 'components') {
+if (params[1] === 'rax-map' && params[2] === 'components') {
   params[3] && (whoIsOpen.level1 = params[3]);
   params[4] && (whoIsOpen.level2 = params[4]);
 }
-console.log('url传递的参数:', params,whoIsOpen);
+console.log('url传递的参数:', params, whoIsOpen);
 
 const AboutPage = React.createClass({
   render() {
@@ -51,11 +51,13 @@ function getComponentsMenuLink(meta, subItem, key) {
 
 /*二级菜单控制*/
 function getComponentsMenuNodes(data, link) {
-  return data.map((item, index) => {
-    const iconStyle = (whoIsOpen.level2 === item) ? {color: 'red'} : {color: 'blue'};
+  return data.map((feature, index) => {
+    const item = feature.meta.title;
+    const urlKey = feature.key;
+    const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'red'} : {color: 'blue'};
     return (<li key={index} style={{textIndent: '20px'}}>
-      <Link to={`${link}/${item}`} style={iconStyle} onClick={(e, a) => {
-        whoIsOpen.level2 = item;
+      <Link to={`${link}/${urlKey}`} style={iconStyle} onClick={(e, a) => {
+        whoIsOpen.level2 = urlKey;
         console.log('1,2级:', whoIsOpen)
         scope.setState({});
       }}>{item}</Link>
@@ -85,7 +87,9 @@ function getComponentsMenuGroups(data) {
       if (idx !== -1) {
         const menuData = data[key].index;
         menuData.key = key;
-        menuData.subMenus = Object.keys(data[key].demo);
+        menuData.subMenus = Object.keys(data[key].demo).map((it) => {
+          return Object.assign(data[key].demo[it], {key: it})
+        });
         menuGroups[idx].menus.push(menuData);
       }
     }
@@ -101,9 +105,9 @@ export default function ComponentsMenu(props) {
   const {data, defaultSelectedKey} = props;
   scope = props.scope;
   return (<Menu
-            mode={props.mode}
-            defaultOpenKeys={['components']}
-            selectedKeys={[defaultSelectedKey]}
+      mode={props.mode}
+      defaultOpenKeys={['components']}
+      selectedKeys={[defaultSelectedKey]}
   >
     <Menu.Item key="about">
       <Link to="/rax-map/components/about">基本介绍</Link>

@@ -98,6 +98,7 @@ class Marker extends PureComponent {
     if (('render' in props) || ('children' in props && props.children)) {
       this.createContentWrapper();
       if ('className' in props && props.className) {
+        // https://github.com/ElemeFE/react-amap/issues/40
         this.contentWrapper.className = props.className;
       }
     }

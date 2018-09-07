@@ -60,8 +60,11 @@
   },
   "dependencies": {
     "rax": "^0.6.5",
+    "rax-button": "^0.6.5",
     "rax-picture": "^0.6.6",
+    "rax-recyclerview": "^0.6.5",
     "rax-text": "^0.6.5",
+    "rax-touchable": "^0.6.5",
     "rax-view": "^0.6.5",
     "replace-in-file": "^3.4.2"
   }

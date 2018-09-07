@@ -1,11 +1,3 @@
-/**
- * Created with WebStorm.
- * User: 一晟
- * Date: 2018/8/30
- * Time: 下午7:26
- * email: zhu.yan@alibaba-inc.com
- * To change this template use File | Settings | File Templates.
- */
 import {createElement, Component, Children, PureComponent, cloneElement, unmountComponentAtNode} from 'rax';
 import View from 'rax-view';
 import APILoader from '../utils/APILoader';
@@ -24,9 +16,7 @@ const wrapperStyle = {
   position: 'relative'
 };
 
-/*Native supported dynamic props by Amap
-: Array<string>
-*/
+// Native supported dynamic props by Amap
 const NativeDynamicProps = [
   'layers',
   'zoom',
@@ -42,7 +32,6 @@ const NativeDynamicProps = [
 
 /*
  * Props below can set by 'setStatus' altogether
- * : Array<string>
  */
 const StatusDynamicProps = [
   'animateEnable',
@@ -58,7 +47,6 @@ const StatusDynamicProps = [
   'zoomEnable'
 ];
 
-// : Array<string>
 const StaticProps = [
   'view',
   'zooms',
@@ -91,16 +79,22 @@ const defaultOpts = {
     defaultType: 0
   },
   ToolBar: {
-    position: 'RB',
-    noIpLocate: true,
-    locate: true,
-    liteStyle: true,
-    autoPosition: false
+    position: 'RB', // 控件停靠位置 LT:左上角;RT:右上角;LB:左下角;RB:右下角;默认位置：LT
+    noIpLocate: true, // 定位失败后，是否开启IP定位，默认为false
+    locate: true,// 是否显示定位按钮，默认为false
+    liteStyle: true,// 是否使用精简模式，默认为false
+    autoPosition: false, // 是否自动定位，即地图初始化加载完成后,是否自动定位的用户所在地,仅在支持HTML5的浏览器中有效，默认为false
+    direction: true// 方向键盘是否可见，默认为true
   },
   OverView: {},
-  ControlBar: {}
+  ControlBar: {
+    position: 'LT',
+    showZoomBar: true,//是否显示缩放按钮。移动端默认为false，PC端为默认为true
+    showControlButton: true // 是否显示倾斜、旋转按钮。移动端默认为false，PC端为默认为true
+  }
 };
 
+// class BaseMap
 class BaseMap extends PureComponent {
   static displayName = 'BaseMap';
 
@@ -110,6 +104,21 @@ class BaseMap extends PureComponent {
   mapWrapper;
   setterMap;
   converterMap;
+
+  // 只暴露了自定义部分,其他prop沿用AMap的api
+  static defaultProps = {
+    key: '',
+    useAMapUI: '',
+    version: '',
+    protocol: '',
+    plugins: [],
+    events: {},
+    loading: {
+      time: 0,
+      render: () => null
+    },
+    status: {}
+  }
 
   constructor(props) {
     super(props);
@@ -138,7 +147,8 @@ class BaseMap extends PureComponent {
         key: props.amapkey,
         useAMapUI: props.useAMapUI,
         version: props.version,
-        protocol: props.protocol
+        protocol: props.protocol,
+        loading: props.loading
       }).load().then(() => {
         this.createInstance();
         if (!this.state.mapLoaded) {
@@ -337,14 +347,17 @@ class BaseMap extends PureComponent {
   }
 
   render() {
-    return (<View ref='mapContainer' style={wrapperStyle}>
-      <div ref={(div) => {
-        this.mapWrapper = div;
-      }} style={containerStyle}>
-        {this.state.mapLoaded ? null : this.props.loading || null}
-      </div>
-      <div ref={'otherContainer'}>{this.state.mapLoaded ? this.renderChildren() : null}</div>
-    </View>);
+    const {loading} = this.props;
+    const loadingRender = (loading.render instanceof Function) ? loading.render : ()=>null
+    return (
+        <View ref={'mapContainer'} style={wrapperStyle}>
+          <div ref={(div) => {
+            this.mapWrapper = div;
+          }} style={containerStyle}>
+            {this.state.mapLoaded ? null : loadingRender() || null}
+          </div>
+          <div ref={'otherContainer'}>{this.state.mapLoaded ? this.renderChildren() : null}</div>
+        </View>);
   }
 }
 
