@@ -1,6 +1,6 @@
 ---
 title: Map插件
-order: 2
+order: 3
 ---
 
 amap中有一些[地图插件](https://lbs.amap.com/api/javascript-api/guide/abc/plugins)以插件的形式加载;
@@ -20,8 +20,15 @@ const plugins = [
   }
 ]
 ```
+> plugins 插件有以下5种,了解具体属性,请移步到高德amap [地图控件](http://lbs.amap.com/api/javascript-api/reference/map-control)
 
-> plugins 插件配置较复杂,具体操作移步到高德amap [地图控件](http://lbs.amap.com/api/javascript-api/reference/map-control)
+| 属性 | 是否插件 | 说明 |
+|------|-----|-----|
+| MapType | 是 | 地图类型切换插件，用来切换固定的几个常用图层
+| OverView | 是 | 地图鹰眼插件，默认在地图右下角显示缩略图
+| Scale | 是 | 地图比例尺插件
+| ToolBar | 是 | 地图工具条插件，可以用来控制地图的缩放和平移
+| ControlBar | 是 | 组合了旋转、倾斜、复位、缩放在内的地图控件，在3D地图模式下会显示（自V1.4.0版本新增）
 
 [JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/mxc0h16p/8/)
 

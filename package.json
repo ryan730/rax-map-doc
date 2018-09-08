@@ -7,7 +7,8 @@
   "scripts": {
     "site": "bisheng build",
     "deploy": "bisheng gh-pages",
-    "start": "bisheng start"
+    "start": "bisheng start",
+    "dev": "webpack-dev-server --config ./webpack.config.js"
   },
   "author": "zhu.yan@alibaba-inc.com",
   "repository": {
@@ -56,6 +57,7 @@
     "uglify-js": "^2.8.12",
     "url-loader": "^0.5.7",
     "webpack": "^3.4.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
@@ -65,7 +67,6 @@
     "rax-recyclerview": "^0.6.5",
     "rax-text": "^0.6.5",
     "rax-touchable": "^0.6.5",
-    "rax-view": "^0.6.5",
-    "replace-in-file": "^3.4.2"
+    "rax-view": "^0.6.5"
   }
 }

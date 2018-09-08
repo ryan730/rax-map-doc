@@ -51,11 +51,15 @@ function getComponentsMenuLink(meta, subItem, key) {
 
 /*二级菜单控制*/
 function getComponentsMenuNodes(data, link) {
-  return data.map((feature, index) => {
+  const arr = data.sort((it1, it2) => {
+    return parseInt(it1.meta.order) > parseInt(it2.meta.order)
+  })
+  return arr.map((feature, index) => {
     const item = feature.meta.title;
+    const key = feature.meta.order;
     const urlKey = feature.key;
     const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'red'} : {color: 'blue'};
-    return (<li key={index} style={{textIndent: '20px'}}>
+    return (<li key={key} style={{textIndent: '20px'}}>
       <Link to={`${link}/${urlKey}`} style={iconStyle} onClick={(e, a) => {
         whoIsOpen.level2 = urlKey;
         console.log('1,2级:', whoIsOpen)

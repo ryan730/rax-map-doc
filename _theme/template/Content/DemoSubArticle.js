@@ -13,7 +13,7 @@ export default class DemoSubArticle extends React.Component {
 
   componentWillMount() {
     this.changeLayout();
-    window.addEventListener('resize', this.changeLayout);
+    ///// window.addEventListener('resize', this.changeLayout);// ryan+
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -53,8 +53,10 @@ export default class DemoSubArticle extends React.Component {
               window.mountNode = document.querySelector('.code-preview');
               if(!window.mountNode)return;
               window.React = require('rax');
+              window.ReactDOM = require('rax-view');
+              window.aaa = item;
               item.preview(); // run md 的 code 的关键命令
-          },500))&&console.log('delay mountNode!')
+          },500))&&console.log('delay mountNode!',item)
           : null}
     </DemoItem>);
     const pageContent = pageData.index.content;

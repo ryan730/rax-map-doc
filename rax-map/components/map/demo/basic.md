@@ -61,6 +61,7 @@ Map 可以通过setState 改变所有动态属性；
            <Map amapkey={'788e08def03f95c670944fe2c78fa76f'}
            center = {center}
            zoom = {zoom}
+           resizeEnable = {true}
            />
          </View>
          <View style={rowStyle}>

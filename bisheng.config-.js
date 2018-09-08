@@ -20,14 +20,14 @@ module.exports = {
     // config.externals = {
     //   'React': 'react'
     // },
-    // config.plugins = [
-    //   new BundleAnalyzerPlugin()
-    // ],
-    config.resolve.alias = {
-      'rax-map': path.join(process.cwd(), 'rax-map'),
-      //'libs': path.join(process.cwd(), 'libs'),
-      'react-router': 'react-router/umd/ReactRouter'
-    };
+    config.plugins = [
+      //new BundleAnalyzerPlugin()
+    ],
+        config.resolve.alias = {
+          'rax-map': path.join(process.cwd(), 'rax-map'),
+          //'libs': path.join(process.cwd(), 'libs'),
+          'react-router': 'react-router/umd/ReactRouter'
+        };
     return config;
   },
   root: '/rax-map-doc/'

@@ -76,7 +76,6 @@ export default class APILoader {
     if (useAMapUI) {
       amapuiPromise = amapuiPromise || this.getAmapuiPromise();
     }
-    console.log('loadingloadingloadingloading:',loading)
     return new Promise(resolve => {
       mainPromise.then(() => {
         setTimeout(() => {
