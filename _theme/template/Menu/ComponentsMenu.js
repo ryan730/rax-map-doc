@@ -89,7 +89,7 @@ function getComponentsMenuGroups(data) {
     menus: []
   }));
   for (let key in data) {
-    if (key !== 'about') {
+    if (key !== 'index') {
       const curCategory = data[key].index.meta.category;
       const idx = componentOrder.indexOf(curCategory);
       if (idx !== -1) {
@@ -117,8 +117,8 @@ export default function ComponentsMenu(props) {
       defaultOpenKeys={['components']}
       selectedKeys={[defaultSelectedKey]}
   >
-    <Menu.Item key="about">
-      <Link to="/rax-map/components/about">基本介绍</Link>
+    <Menu.Item key="index">
+      <Link to="/rax-map/components/index">基本介绍</Link>
     </Menu.Item>
     <SubMenu key={'components'} title={'组件'}>
       {getComponentsMenuGroups(data)}

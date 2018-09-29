@@ -23,7 +23,7 @@ export default function Cover() {
       <div className="cover-link">
         {/*<a className="github" href="https://github.com/ElemeFE/react-amap" target="_blank">GitHub</a>*/}
         {/*<Link className="start" to="/articles/start ` " >Get Started</Link>*/}
-        <Link className="start" to="/rax-map/components/about" >Get Started</Link>
+        <Link className="start" to="/rax-map/components/index" >Get Started</Link>
       </div>
       <div className="slogan">
 

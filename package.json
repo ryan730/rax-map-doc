@@ -6,7 +6,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "site": "bisheng build",
-    "deploy": "bisheng gh-pages",
+    "deploy": "bisheng build && bisheng gh-pages",
     "start": "bisheng start",
     "dev": "webpack-dev-server --config ./webpack.config.js"
   },
@@ -67,6 +67,7 @@
     "rax-recyclerview": "^0.6.5",
     "rax-text": "^0.6.5",
     "rax-touchable": "^0.6.5",
-    "rax-view": "^0.6.5"
+    "rax-view": "^0.6.5",
+    "react-amap": "^1.2.7"
   }
 }
