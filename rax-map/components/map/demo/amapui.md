@@ -3,7 +3,7 @@ title: AMapUI 组件库
 order: 6
 ---
 
-现在 rax-map 的 Map 组件中，你可以指定 `useAMapUI` 属性为 true,这样可以加载 [AMapUI 组件库](http://lbs.amap.com/api/javascript-api/guide/amap-ui/intro)。
+现在 Rax-map 的 Map 组件中，你可以指定 `useAMapUI` 属性为 true,这样可以加载 [AMapUI 组件库](http://lbs.amap.com/api/javascript-api/guide/amap-ui/intro)。
 
 使用参考[示例](https://lbs.amap.com/api/amap-ui/demos/amap-ui-simplemarker/custom-icon)。
 
@@ -35,16 +35,22 @@ order: 6
 | 拖拽选址 | PositionPicker | ui/misc/PositionPicker | [官方示例](https://lbs.amap.com/api/javascript-api/reference-amap-ui/other/positionpicker) |
 
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/y9cv20cv/8/)
-
-> 对于 SimpleMarker 的用法,建议使用 `rax-map` 使用样式的方案,充分利用了jsx的标签特性,有两种方法:
+> 对于 SimpleMarker 的用法,建议使用 `Rax-map` 使用样式的方案,充分利用了jsx的标签特性,有两种方法:
 
 - 方法1.
 ``` <Marker><img src="..."/></Marker>```
 - 方法2.
 ``` <Markers render={this.renderMarkerLayout} /> ```
 
-以下是 高德官方的 `SimpleMarker` 和 `PoiPicker` 的例子:
+> [在线示例]演示内容:
+
+> 1.设置map的useAMapUI属性为true,启用map的AMapUI功能;
+
+> 2.以下是 高德官方的 `SimpleMarker` 和 `PoiPicker` 的例子:
+
+
+
+
 
 ```jsx
 import {Map} from 'rax-map';
@@ -164,7 +170,7 @@ class UIMarker extends PureComponent {
   }
 }
 
-const MyApp = (<div style={{width: '100%', height: '100%'}}>
+const MyApp = (<View style={{width: '100%', height: '100%'}}>
       <Map zoom={12} center={[116.417, 39.88]} useAMapUI={true} >
         <UIMarker/>
       </Map>
@@ -172,7 +178,7 @@ const MyApp = (<div style={{width: '100%', height: '100%'}}>
          <input id="pickerInput" style={pickerInput} placeholder="输入关键字选取地点" />
          <View id="poiInfo" style={poiInfo}></View>
       </View>
-      </div>);
+      </View>);
 
 render(
   MyApp,

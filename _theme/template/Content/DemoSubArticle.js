@@ -40,6 +40,19 @@ export default class DemoSubArticle extends React.Component {
     const item =  pageData.demo[key];
     const content = props.utils.toReactComponent(['div'].concat(item.content));
 
+   this.state.isWide ?
+    (setTimeout(()=>{ // 延迟能够找到 mountNode 对象
+      window.mountNode = document.querySelector('.code-preview');
+      if(!window.mountNode)return;
+      window.React = require('rax');
+      window.ReactDOM = require('rax-view');
+      window.aaa = item;
+      item.preview(); // run md 的 code 的关键命令
+    },500))&&console.log('delay mountNode!',item)
+    : null;
+
+    console.log('pageData.demo::',pageData.demo);
+
     const demoComponent = (<DemoItem
         key={0}
         title={item.meta.title}
@@ -48,17 +61,25 @@ export default class DemoSubArticle extends React.Component {
         isWide={this.state.isWide}
     >
       {/*{ this.state.isWide ? item.preview(React, ReactDOM) : null}*/}
-      { this.state.isWide ?
-          (setTimeout(()=>{ // 延迟能够找到 mountNode 对象
-              window.mountNode = document.querySelector('.code-preview');
-              if(!window.mountNode)return;
-              window.React = require('rax');
-              window.ReactDOM = require('rax-view');
-              window.aaa = item;
-              item.preview(); // run md 的 code 的关键命令
-          },500))&&console.log('delay mountNode!',item)
-          : null}
     </DemoItem>);
+
+    // const demoComponent = Object.keys(pageData.demo).map(key => pageData.demo[key])
+    //     .filter(item => !item.meta.hidden)
+    //     .sort((a, b) => a.meta.order - b.meta.order)
+    //     .map((item, i) => {
+    //       const content = props.utils.toReactComponent(['div'].concat(item.content));
+    //       return (<DemoItem
+    //           key={i}
+    //           title={item.meta.title}
+    //           content={content}
+    //           code={props.utils.toReactComponent(item.highlightedCode)}
+    //           isWide={this.state.isWide}
+    //       >
+    //         {/*{ this.state.isWide ? item.preview(React, ReactDOM) : null}*/}
+    //       </DemoItem>);
+    //     });
+
+
     const pageContent = pageData.index.content;
     const pageAPI = pageData.index.api;
     const title = pageData.index.meta.title;

@@ -9,16 +9,20 @@ title: Markers 组件
 
 显示大量标记的时候使用；注意与 [Marker](/components/marker) 的区别。
 
-Markers 组件大部分属性是静态属性；对坐标点的增加和删除会导致所有的标记点刷新，在点数量较大的情况下比较慢。
-
-不过 Markers 有比较好的聚合展示效果（启用了聚合插件）；虽然是静态属性，但是如果面临复杂的需求你仍然可以在获得高德实例后，参照高德接口自己对实例进行操作。
-而且还提供了两种 `render` 方法让你直接以 React 的方式写标记点的外观。
++ Markers 组件大部分属性是静态属性。
 
 
+## 场景优化方案
+
++ 默认情况下,对坐标点的增加和删除会导致所有的标记点刷新，在点数量较大的情况下比较慢, 瞬间cpu,内存峰值增加。
++ 由于对 markers 属性的更新必须是引用更新才能引起标记点的刷新，如果标记点过多，会影响性能,所以我们提供两种方式处理大量的 Marker 数据:
+  - 聚合展示效果,即 `useCluster=true`,此属性是高德启用了 `聚合插件` 提供的方法。
+  - 渐进式加载 Marker 点,保留之前的通过 `markers` 属性创建的点，再通过交集和差集算法,只创建 `markers` 新增加的点, 即 `keepLive=true`,此属性是 Rax-map 提供的方法。
++ 根据业务需要和展示效果来判断,这两种大量 Markers 的优化方法,默认这两种方法都未开启。
 
 ## API
 
-> 在阅读以下文档时记得区分 react-amap 创建的 Markers 实例，和高德地图原生的 Marker 实例。
+> 在阅读以下文档时记得区分 Rax-map 创建的 Markers 实例，和高德地图原生的 Marker 实例。
 
 ### 动态属性
 
@@ -27,12 +31,14 @@ Markers 组件大部分属性是静态属性；对坐标点的增加和删除会
 | useCluster | `Boolean` 或者 [MarkerClustererOptions](http://lbs.amap.com/api/javascript-api/reference/plugin#AMap.MarkerClusterer) | `false` | 是否启用标记点聚合插件；如果是MarkerClustererOptions对象，表明启用 |
 | markers  | [MarkerOption\[\]](#MarkerOption-配置) | `[]` | 数组每一项都是都应标记点的属性或者其他自定义数据配置 |
 
-> 对 markers 属性的更新必须是引用更新才能引起标记点的刷新；不过如果标记点过多，会影响性能。
+> 由于目前 `useCluster` 和 `keepLive` 会有计算冲突,所以二者是相斥关系,选择 `useCluster=true` 会替换掉 `keepLive=true` 的功能。
 
 ### 静态属性
 
 | 属性 | 类型 | 默认取值 | 说明 |
 |------|-----|------|-----|
+| keepLive | `Boolean` | `false` | 是否启用保留之前 markers,递增新 markers 的功能 |
+| renderCluser | `Function` | / | 在启用标记点聚合插件；通过一个回调函数,设置聚合点的样式,只能在初始化阶段设置 |
 | render | `Function` | /  | 根据传入的 [MarkerOption](#MarkerOption-配置) 返回一个 React 组件，或者返回`false`  |
 | events  | `Object` | / | 同 Marker 的事件绑定，但是传入的参数稍有不同，查看[Markers的events属性](#Markers-events-事件) |
 | 其他高德原生 Marker 属性 | 1. 所需属性对应类型<br/>2. 或者一个函数，返回相应类型 | / | 除`extData`外的[其他高德原生 Marker 组件可以配置的属性](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker)；  |
@@ -41,6 +47,11 @@ Markers 组件大部分属性是静态属性；对坐标点的增加和删除会
 
 > + extData 会被赋值为[MarkerOption](#MarkerOption-配置)。
 
+
+
+---
+
+> 以下内容可以参看,单独 [Marker](/components/marker) 组件的属性方法。
 
 #### MarkerOption 配置
 
@@ -58,7 +69,7 @@ Markers 组件大部分属性是静态属性；对坐标点的增加和删除会
 
 但是，如果你在 Markers 组件的属性上定义了 `render` 函数，`render`函数执行的结果会作为最终外观覆盖其他的属性设定。
 
-同时，我们也在创建后的高德原生 Marker 实例上加载了一个`render`方法，传入一个 React 组件，或者返回 React 组件的函数，就可以刷新标记点的外观。
+同时，我们也在创建后的高德原生 Marker 实例上加载了一个`render`方法，传入一个 Rax 组件，或者返回 Rax 组件的函数，就可以刷新标记点的外观。
 
 
 ### Markers events 事件

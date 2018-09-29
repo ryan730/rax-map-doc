@@ -9,7 +9,6 @@ export default class Nodes extends React.Component {
     return this.props.location.pathname !== nextProps.location.pathname;
   }
   render() {
-    console.log('opopopopopo***********')
     // const props = this.props;
     // let type;
     // if (props.pageData.demo) {

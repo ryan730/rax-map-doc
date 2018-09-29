@@ -7,7 +7,13 @@ Map 的父组件必须具有宽度和高度；
 
 Map 可以通过setState 改变所有动态属性；
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/y9cv20cv/)
+> [在线示例]演示内容:
+
+> 1.创建一个基本地图
+
+> 2.通过控制右边按钮,来改变map的容器尺寸、改变map的中心点、改变map的级别
+
+
 
 ```jsx
  import {Map} from 'rax-map';

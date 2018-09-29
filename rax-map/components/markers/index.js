@@ -142,11 +142,11 @@ class Markers extends PureComponent {
         this.map = props.__map__;
         this.element = this.map.getContainer();
         this.markersCache = defaultOpts.markersCache;
-        this.useCluster = null;
+        /// this.useCluster = null;
         this.markerIDCache = defaultOpts.markerIDCache;
         this.resetOffset = new window.AMap.Pixel(-SIZE_WIDTH / 2, -SIZE_HEIGHT);
         this.hoverOffset = new window.AMap.Pixel(-SIZE_HOVER_WIDTH / 2, -SIZE_HOVER_HEIGHT);
-        this.keepLive = props.keepLive || false;
+        // this.keepLive = props.keepLive || false;
         this.createMarkers(props);
       }
     }
@@ -186,10 +186,6 @@ class Markers extends PureComponent {
       }
       options.content = markerContent;
       const marker = new window.AMap.Marker(options);
-      if (!window.aaa) {
-        window.aaa = 0;
-      }
-      window.aaa++;
       marker.on('click', (e) => {
         this.onMarkerClick(e);
       });
@@ -236,6 +232,14 @@ class Markers extends PureComponent {
 
   checkClusterSettings(props) {
     if (props.useCluster) {
+
+      // if(props.renderCluser) {
+      //   props.useCluster = {};
+      //   props.useCluster.renderCluserMarker = this.renderCluserMarker;
+      // }
+      //
+      // console.log('props.useCluster==>',props.useCluster);
+
       this.loadClusterPlugin(props.useCluster).then((cluster) => {
         cluster.setMarkers(this.markersCache);
       });
@@ -372,13 +376,13 @@ class Markers extends PureComponent {
 
       // keepLive=false,清空所有marker
       // keepCache=[ ] 表示新旧数据对比,没有任何的重复,说明数据彻底做了刷新
-      this.props.useCluster && (this.keepLive = false); // 目前 keeLive 与 useCluster 是互斥关系,不能同时使用;
+      this.props.useCluster && (this.props.keepLive  = false); // 目前 keeLive 与 useCluster 是互斥关系,不能同时使用;
 
       /// 如果keepLive=true,只在改变级别时或者远距离改变中心点时,全清数据。
       /// 如果keepLive=false,每次改变 markers 数组就触发。
       /// 优化策略 keepLive = true,只记录增量。keepLive=false,全量刷新,如果此时markers巨大,同时又没有做 useCluster,内存会瞬间陡增。
-      if (!this.keepLive || !keepCache.length) {
-        let clearList = (this.props.useCluster) || (!this.props.useCluster && !this.keepLive) ? this.markersCache : this.props.markers;
+      if (!this.props.keepLive || !keepCache.length) {
+        let clearList = (this.props.useCluster) || (!this.props.useCluster && !this.props.keepLive) ? this.markersCache : this.props.markers;
         window.clearList = clearList;
         clearList.length && clearList.forEach((item) => {
               let marker = !(item.setMap instanceof Function) ? item.feature : item;
@@ -393,7 +397,7 @@ class Markers extends PureComponent {
       }
       this.markersCache = defaultOpts.markersCache;// markersCache 归零
       // draw和redraw
-      if (markerChanged && (!this.keepLive || !keepCache.length)) {
+      if (markerChanged && (!this.props.keepLive || !keepCache.length)) {
         this.createMarkers(nextProps);
         /// setTimeout(()=>{ // 打开这里注释,可以看到全屏刷新和局部刷新的差别。
         this.setMarkerChild();
@@ -432,26 +436,26 @@ class Markers extends PureComponent {
   }
 
   /*
-  * 聚合的默认样式,追踪marker的style样式(目前只支持默认样式)。
+  * 聚合的默认样式,追踪marker(最后一个)的style样式(目前只支持默认样式)。
   */
-  renderCluserMarker(context, scope) {
+  renderCluserMarker1 = (context, scope) => {
+    const masterContext = context.markers[context.count - 1];
+    const childContext = masterContext.getContent().children[0];// 获取marker的样式
     const count = 1;
-    const factor = Math.pow(context.count / count, 1 / 18);
     const div = document.createElement('div');
-    /// div.innerHTML = context.count;
-    let nums = 0;
-    context.markers.map((marker) => {
-      nums += parseInt(marker.getExtData().count);
-    })
-    div.innerHTML = `本区域共计有(${nums})套房源`;
-    let masterContext = context.markers[context.count - 1];
-    let childContext = masterContext.getContent().children[0];// 获取marker的样式
     if (childContext && childContext.children[0]) {
       let mStyle = childContext.children[0].style.cssText;
-      mStyle += `min-width:160px;padding:0 10px;`;
+      mStyle += `padding:0 10px;text-align:center;white-space:nowrap;`;
       div.style.cssText = mStyle;
+      div.innerHTML = `本区域共计有(${context.count})个`;
+      context.marker.setContent(div);
     }
-    context.marker.setContent(div);
+  }
+  renderCluserMarker = (context, scope) => {
+    const marker = this.props.renderCluser(context);
+    const dom = document.createElement('div');
+    context.marker.setContent(dom);
+    render(<View>{marker}</View>, dom);
   }
 
   createClusterPlugin(config) {
@@ -469,8 +473,10 @@ class Markers extends PureComponent {
       gridSize: 50,
       // styles: [style, style, style],
       averageCenter: false, // 聚合点的图标位置是否是所有聚合内点的中心点。默认为否，即聚合点的图标位置位于聚合内的第一个点处
-      renderCluserMarker: this.renderCluserMarker
     };
+    // 如果有 Markers 的 renderCluser 属性就渲染 CluserMarker,静态方法,只初始化渲染
+    (this.props.useCluster && isFun(this.props.renderCluser)) && (defalutOptions.renderCluserMarker = this.renderCluserMarker);
+
     ClusterProps.forEach((key) => {
       if (key in config) {
         options[key] = config[key];
@@ -478,6 +484,7 @@ class Markers extends PureComponent {
         options[key] = defalutOptions[key];
       }
     });
+
     this.mapCluster = new window.AMap.MarkerClusterer(this.map, [], options);
     let events = {};
     if ('events' in config) {
@@ -487,7 +494,7 @@ class Markers extends PureComponent {
       }
     }
     this.initClusterMarkerWindow();
-    /// this.bindClusterEvent(events); // ryan+,关闭cluser的事件自定义,默认展开
+    /// this.bindClusterEvent(events); // ryan+,关闭cluser默认展开的事件自定义
     return this.mapCluster;
   }
 

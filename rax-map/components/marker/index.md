@@ -7,12 +7,18 @@ title: Marker 组件
 
 ## 何时使用
 
-显示单个坐标点的时候使用；注意与 [Markers](/components/markers) 的区别。
+显示单个坐标点的时候使用；注意与 [Markers](/rax-map/components/Markers) 的区别。
 
 
 ## API
 
-> 在阅读以下文档时记得区分 react-amap 创建的 Marker 实例，和高德地图原生的 Marker 实例。
+> 在阅读以下文档时记得区分 Rax-map 创建的 Marker 实例，
+
+> Rax-map 的 Marker实例 和 高德地图原生的 Marker实例 是不同的。
+
+> 可以这么理解, Rax-map 的 `Marker = rax + 高德Marker`, 高德Marker只负责显示，而 rax-map 通过 rax 的render+jsx,来控制高德Marker。
+
+> 特别是在声明阶段。
 
 
 ### 属性列表
@@ -35,19 +41,22 @@ title: Marker 组件
 |extData| 动态属性 | 任意 | / | 用户自定义属性，支持JavaScript API任意数据类型，如Marker的id等 |
 |label| 动态属性 | `{content,offset}` | / | 添加文本标注，content为文本标注的内容，offset为偏移量，左上角为偏移量为（0,0） |
 | events | 动态属性 | `Object` | / | 以键值对形式提供绑定的事件对象，见下方说明 |
-| render | 静态属性 | React 组件 或者返回 React 组件的函数 | / | 【**0.2.2 更新**】render 属性接受一个 React 组件，或者一个方法返回一个 React 组件，会在初始化时渲染为组件的外观。并且会覆盖`children`，`content` 等的设置。 |
+
 
 
 ### 其他静态属性
 
 Marker 的静态属性有 6 个，其属性的作用与取值参考[高德官网](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker)
 
-1. `topWhenClick`
-2. `bubble`
-3. `raiseOnDrag`
-4. `cursor`
-5. `autoRotation`
-6. `shape`
+| 属性 | 属性类型 | 值类型 | 默认取值 | 说明 |
+|------|-----|-----|------|-----|
+| render | 静态属性 | Rax 组件 或者返回 Rax 组件的函数 | / | render 属性接受一个 Rax 组件，或者一个方法返回一个 Rax 组件，会在初始化时渲染为组件的外观。并且会覆盖`children`，`content` 等的设置。 |
+| topWhenClick | 静态属性 | `Boolean`| false | 鼠标点击时marker是否置顶，不置顶 （自v1.3 新增）|
+| bubble | 静态属性 | `Boolean`| false | 是否将覆盖物的鼠标或touch等事件冒泡到地图上 （自v1.3 新增）|
+| raiseOnDrag | 静态属性 | `Boolean`| false | 设置拖拽点标记时是否开启点标记离开地图的效果 |
+| cursor | 静态属性 | `String`| / | 指定鼠标悬停时的鼠标样式，自定义cursor |
+| autoRotation | 静态属性 | `Boolean`| false | 是否自动旋转。点标记在使用moveAlong动画时，路径方向若有变化，点标记是否自动调整角度广泛用于自动调节车辆行驶方向 |
+| shape | 静态属性 | `MarkerShape`| / | 设置Marker的可点击区域，在定义的区域内可触发Marker的鼠标点击事件 |
 
 ### 扩展属性
 
@@ -57,11 +66,11 @@ Marker 的静态属性有 6 个，其属性的作用与取值参考[高德官网
 
 支持通过配置`events`属性给 Marker 标记绑定事件；除了[高德原生提供的事件](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker)外，我们扩展了`created`事件。
 
-`events.created` 在标记实例创建成功后调用，传入参数就是标记实例。你可以在这里获得实例并进行操作。例如：
+`events.created` 在标记实例创建成功后调用，传入参数就是标记实例(map事件同样也有这个方法)。你可以在这里获得实例并进行操作。例如：
 
 ```jsx 
 const events = {
-  created: (ins) => { console.log(ins); },
+  created: (marker) => { console.log(marker); },
   click: () => { console.log('clicked') },
 }
 

@@ -1,5 +1,5 @@
 ---
-title: 属性用法(动态)
+title: 动态更改属性
 order: 4
 ---
 
@@ -25,7 +25,9 @@ order: 4
 | touchZoom | 动态属性 | `Boolean` |`true`| 地图在移动终端上是否可通过多点触控缩放浏览地图 |
 | zoomEnable | 动态属性 | `Boolean` |`true`| 地图是否可缩放 |
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/mxc0h16p/8/)
+> [在线示例]演示内容:
+
+> 1.通过控制右侧按钮,来改变map的动态属性。
 
 ```jsx
 import {Map} from 'rax-map';
@@ -82,7 +84,7 @@ render(){
                       {mapInstance?`${item}:${Boolean(this.state.status[item])}`:null}
                    </Touchable>
        })}
-    </View>
+   </View>
  </View>
 }
 }

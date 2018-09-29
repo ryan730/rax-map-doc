@@ -4,11 +4,14 @@ order: 2
 ---
 
 可以通过`events`属性给地图绑定事件;
-> [支持所有amap事件](https://lbs.amap.com/api/javascript-api/reference/map)
+> [支持所有amap的map事件](https://lbs.amap.com/api/javascript-api/reference/map)
 
 ![Alt text](https://img.alicdn.com/tfs/TB1T0lOvz7nBKNjSZLeXXbxCFXa-880-881.jpg)
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/mxc0h16p/6/)
+> [在线示例]演示内容:
+
+> 1.同过map的events属性,绑定多种事件
+
 
 ```jsx
 import {Map} from 'rax-map';

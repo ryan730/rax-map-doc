@@ -14,7 +14,10 @@ const componentOrder = [
   '信息窗体'
 ];
 
-const params = location.pathname.split('/');
+const url = location.pathname;
+const index = url.indexOf('/rax-map/');
+const params = url.substring(index,url.length).split('/');
+console.log('params==>',params)
 if (params[1] === 'rax-map' && params[2] === 'components') {
   params[3] && (whoIsOpen.level1 = params[3]);
   params[4] && (whoIsOpen.level2 = params[4]);
@@ -58,8 +61,9 @@ function getComponentsMenuNodes(data, link) {
     const item = feature.meta.title;
     const key = feature.meta.order;
     const urlKey = feature.key;
-    const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'red'} : {color: 'blue'};
-    return (<li key={key} style={{textIndent: '20px'}}>
+    const liStyle = (whoIsOpen.level2 === urlKey) ? {textIndent: '20px',background:'#108ee9'} : {textIndent: '20px'};
+    const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'white',paddingLeft:'30px'} : {color: '#108ee9','padding-left':'30px'};
+    return (<li key={key} style={liStyle}>
       <Link to={`${link}/${urlKey}`} style={iconStyle} onClick={(e, a) => {
         whoIsOpen.level2 = urlKey;
         console.log('1,2级:', whoIsOpen)

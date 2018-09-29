@@ -9,7 +9,9 @@ Map 组件现在还支持配置 loading 属性，在地图加载完成之前渲�
 - `render`:loading 的DOM 渲染成RaxNode,默认为null。
 - 可以自由的在 `render` 里插入入场动画。
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/y9cv20cv/3/)
+> [在线示例]演示内容:
+
+> 1.通过绑定map属性loading,加入loading动画,或者入场动画;
 
 ```jsx
 import {createElement, PureComponent, render} from 'rax';

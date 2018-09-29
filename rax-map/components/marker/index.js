@@ -29,14 +29,14 @@ class Marker extends PureComponent {
         log.warning('MAP_INSTANCE_REQUIRED');
       } else {
         this.setterMap = {
-          visible(val) {
+          visible:(val)=>{
             if (val) {
               this.marker && this.marker.show();
             } else {
               this.marker && this.marker.hide();
             }
           },
-          zIndex(val) {
+          zIndex:(val)=>{
             this.marker && this.marker.setzIndex(val);
           }
         };

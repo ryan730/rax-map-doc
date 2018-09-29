@@ -3,11 +3,11 @@ title: Map插件
 order: 3
 ---
 
-amap中有一些[地图插件](https://lbs.amap.com/api/javascript-api/guide/abc/plugins)以插件的形式加载;
+AMap中有一些[地图插件](https://lbs.amap.com/api/javascript-api/guide/abc/plugins)以插件的形式加载;
 
 > 注意：由于是以移动应用为主,所以ToolBar插件默认开启了amap官方的liteStyle(精简模式),为true;
 
-> 如果要继续沿用amap关于ToolBar的配置,请关闭精简模式。
+> 如果要继续沿用AMap关于ToolBar的配置,请关闭精简模式。
 
 ```
 const plugins = [
@@ -30,8 +30,9 @@ const plugins = [
 | ToolBar | 是 | 地图工具条插件，可以用来控制地图的缩放和平移
 | ControlBar | 是 | 组合了旋转、倾斜、复位、缩放在内的地图控件，在3D地图模式下会显示（自V1.4.0版本新增）
 
-[JSFIDDLE 在线示例](https://jsfiddle.net/ioslh/mxc0h16p/8/)
+> [在线示例]演示内容:
 
+> 1.创建一个添加以上地图属性plugins来绑定地图插件集合。
 
 ```jsx
  import {Map} from 'rax-map';
