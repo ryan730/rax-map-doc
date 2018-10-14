@@ -29,7 +29,7 @@ const log = {
 
   // 不影响使用，但不是本插件理想的使用方式
   optimize: (key) => {
-    console.log(`%c${getMessage(key)}`, 'color:#d4d483;border-left: 2px solid #d4d483;padding-left: 4px;');
+    console.log(`%c${getMessage(key)}`, 'color:#d4d483;border-left: 2px solid #d4d483;paddingLeft: 4px;');
   }
 };
 

@@ -80,8 +80,6 @@ if (typeof window !== 'undefined') {
   headEl.appendChild(styleEl);
 }
 
-// const Component = PureComponent;
-
 const SCALE = 0.8;
 const SIZE_WIDTH = 32 * SCALE;
 const SIZE_HEIGHT = 46 * SCALE - 2;

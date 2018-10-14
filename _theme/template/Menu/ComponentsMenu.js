@@ -61,8 +61,9 @@ function getComponentsMenuNodes(data, link) {
     const item = feature.meta.title;
     const key = feature.meta.order;
     const urlKey = feature.key;
+    // console.log('ppppllll---->',key,item);
     const liStyle = (whoIsOpen.level2 === urlKey) ? {textIndent: '20px',background:'#108ee9'} : {textIndent: '20px'};
-    const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'white',paddingLeft:'30px'} : {color: '#108ee9','padding-left':'30px'};
+    const iconStyle = (whoIsOpen.level2 === urlKey) ? {color: 'white',paddingLeft:'30px'} : {color: '#108ee9','paddingLeft':'30px'};
     return (<li key={key} style={liStyle}>
       <Link to={`${link}/${urlKey}`} style={iconStyle} onClick={(e, a) => {
         whoIsOpen.level2 = urlKey;

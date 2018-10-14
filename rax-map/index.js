@@ -1,14 +1,15 @@
 import Map from './components/map';
 import Marker from './components/marker';
 import Markers from './components/markers';
+import Polyline from './components/polyline';
 
 import checkZoom from './modules/checkZoom';
+import detailSwiper from './modules/detailSwiper';
 import currentLocation from './modules/currentLocation';
 import mapServices from './modules/utils/mapServices';
 
 // import Circle from './circle';
 // import Polygon from './polygon';
-// import Polyline from './polyline';
 // import InfoWindow from './infowindow';
 // import GroundImage from './groundimage';
 // import CircleEditor from './circleeditor';
@@ -22,14 +23,15 @@ export {
   // Circle,
   // CircleEditor,
   // Polygon,
-  // Polyline,
+  Polyline,
   // PolyEditor,
   // InfoWindow,
   // GroundImage,
   // MouseTool
   checkZoom,
   currentLocation,
-  mapServices
+  mapServices,
+  detailSwiper
 };
 
 export default {
@@ -39,12 +41,13 @@ export default {
   // Circle,
   // CircleEditor,
   // Polygon,
-  // Polyline,
+  Polyline,
   // PolyEditor,
   // InfoWindow,
   // GroundImage,
   // MouseTool
   checkZoom,
   currentLocation,
-  mapServices
+  mapServices,
+  detailSwiper
 };

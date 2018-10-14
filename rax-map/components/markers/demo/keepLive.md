@@ -49,23 +49,24 @@ class App extends PureComponent {
             this.mapInstance = map; // 获取到原生 map 实例
           },
           zoomstart: () => {
-            //this.prevZoom = this.mapInstance.getZoom();
+            // 地图缩放级别更改开始触发
           },
-          // 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
-          moveend: () => {
 
+          moveend: () => {
+            // 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
           },
-          // 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
           dragend: () => {
+            // 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
             const lngLat = this.mapInstance.getCenter();
             this.addMarker(lngLat.lng,lngLat.lat);
           },
-          // 地图缩放级别更改后触发
-          zoomend: () => {
 
+          zoomend: () => {
+            // 地图缩放级别更改后触发
           },
-          // 地图图块加载完成后触发事件
+
          complete: () => {
+            // 地图图块加载完成后触发事件
             const lngLat = this.mapInstance.getCenter();
             this.addMarker(lngLat.lng,lngLat.lat);
          }
