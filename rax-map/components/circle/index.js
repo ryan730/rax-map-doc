@@ -1,47 +1,54 @@
+// @flow
 import {createElement, Component, render, Children, PureComponent, cloneElement, unmountComponentAtNode} from 'rax';
 import View from 'rax-view';
-
 import wrapperGenerator from '../utils/wrapperGenerator'
 import log from '../utils/log'
 import { toLnglat } from '../utils/common'
+/*
+ * props
+ * {
+ *  __map__ 父级组件传过来的地图实例
+ * }
+ */
 
 const configurableProps = [
-  'path',
-  'extData',
+  'center',
+  'radius',
   'draggable',
+  'extData',
 
-  /* 扩展属性*/
+  /* 原生的接口中并没有这些对象，这是本组件的扩展 */
   'visible',
   'style'
 ]
 
 const allProps = configurableProps.concat([
   'zIndex',
-  'bubble',
-  'showDir'
+  'bubble'
 ])
 
-const LineProps = {
-  path: null,
-  extData: {},
-  draggable: false,
+const CircleProps = {
+  __map__: null,
+  __ele__: null,
+  center: null,
   onInstanceCreated: null,
+  radius: 0,
+  draggable: false,
+  extData: {},
   visible: false,
   style: {},
   zIndex: 0,
   bubble: false,
-  showDir: false,
-  __ele__: null,
-  __map__: null,
-  events: {},
+  events: null,
   children: null,
 }
 
-class Polyline extends PureComponent {
-  static displayName = 'Polyline';
+class Circle extends PureComponent {
+  static displayName = 'Circle';
+  props;
   map;
-  polyline;
   element;
+  mapCircle;
   setterMap;
   converterMap;
 
@@ -54,85 +61,70 @@ class Polyline extends PureComponent {
         const self = this
         this.setterMap = {
           visible(val) {
-            if (val) {
-              self.polyline && self.polyline.show()
-            } else {
-              self.polyline && self.polyline.hide()
+            if (self.mapCircle) {
+              if (val) {
+                self.mapCircle.show()
+              } else {
+                self.mapCircle.hide()
+              }
             }
           },
           style(val) {
-            self.polyline.setOptions(val)
+            self.mapCircle && self.mapCircle.setOptions(val)
           }
         }
         this.converterMap = {
-          path(val) {
-            return self.buildPathValue(val)
-          }
+          center: toLnglat
         }
         this.state = {
           loaded: false
         }
-        this.map = props.__map__;
+        this.map = props.__map__
         this.element = this.map.getContainer()
-        setTimeout(() => {
-          this.createMapPolyline(props)
-        }, 13)
+        this.createInstance(props).then(() => {
+          this.setState({
+            loaded: true
+          })
+          this.props.onInstanceCreated && this.props.onInstanceCreated()
+        })
       }
     }
   }
 
   get instance() {
-    return this.polyline
+    return this.mapCircle
   }
 
-  createMapPolyline(props) {
+  createInstance(props) {
     const options = this.buildCreateOptions(props)
     options.map = this.map
-    this.polyline = new window.AMap.Polyline(options)
-    this.setState({
-      loaded: true
-    })
-    this.props.onInstanceCreated && this.props.onInstanceCreated()
+    this.mapCircle = new window.AMap.Circle(options)
+    return Promise.resolve(this.mapCircle)
   }
 
   buildCreateOptions(props) {
     const options = {}
     allProps.forEach((key) => {
       if (key in props) {
-        if ((key === 'style') && props.style) {
+        if (key === 'style' && (props.style !== undefined)) {
           const styleItem = Object.keys(props.style)
           styleItem.forEach((item) => {
             // $FlowFixMe
             options[item] = props.style[item]
           })
-          // visible 做特殊处理
-        } else if (key !== 'visible') {
-          options[key] = this.getSetterValue(key, props[key])
+        } else {
+          options[key] = this.getSetterValue(key, props)
         }
       }
     })
     return options
   }
 
-  detectPropChanged(key, nextProps) {
-    return this.props[key] !== nextProps[key]
-  }
-
-  getSetterValue(key, value) {
+  getSetterValue(key, props) {
     if (key in this.converterMap) {
-      return this.converterMap[key](value)
+      return this.converterMap[key](props[key])
     }
-    return value
-  }
-
-  buildPathValue(path) {
-    if (path.length) {
-      if ('getLng' in path[0]) {
-        return path
-      }
-      return path.map((p) => (toLnglat(p)))
-    }
-    return path
+    return props[key]
   }
 
   renderEditor(children) {
@@ -142,14 +134,11 @@ class Polyline extends PureComponent {
     if (Rax.Children.count(children) !== 1) {
       return null
     }
-    //const child = Rax.Children.only(children)
-    // if (child.type === PolyEditor) {
-    //   return React.cloneElement(child, {
-    //     __poly__: this.polyline,
-    //     __map__: this.map
-    //   })
-    // }
-    return null
+    return Rax.cloneElement(Rax.Children.only(children), {
+      __circle__: this.mapCircle,
+      __map__: this.map,
+      __ele__: this.element
+    })
   }
 
   render() {
@@ -157,4 +146,4 @@ class Polyline extends PureComponent {
   }
 }
 
-export default wrapperGenerator(Polyline)
+export default wrapperGenerator(Circle)

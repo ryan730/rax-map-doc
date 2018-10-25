@@ -2,6 +2,9 @@ import Map from './components/map';
 import Marker from './components/marker';
 import Markers from './components/markers';
 import Polyline from './components/polyline';
+import Polygon from './components/polygon';
+import Circle from './components/circle';
+import Tip from './components/tip';
 
 import checkZoom from './modules/checkZoom';
 import detailSwiper from './modules/detailSwiper';
@@ -10,7 +13,7 @@ import mapServices from './modules/utils/mapServices';
 
 // import Circle from './circle';
 // import Polygon from './polygon';
-// import InfoWindow from './infowindow';
+
 // import GroundImage from './groundimage';
 // import CircleEditor from './circleeditor';
 // import PolyEditor from './polyeditor';
@@ -20,10 +23,11 @@ export {
   Map,
   Marker,
   Markers,
-  // Circle,
-  // CircleEditor,
-  // Polygon,
   Polyline,
+  Polygon,
+  Circle,
+  Tip,
+  // CircleEditor,
   // PolyEditor,
   // InfoWindow,
   // GroundImage,
@@ -38,10 +42,11 @@ export default {
   Map,
   Marker,
   Markers,
-  // Circle,
+  Circle,
   // CircleEditor,
-  // Polygon,
   Polyline,
+  Polygon,
+  Tip,
   // PolyEditor,
   // InfoWindow,
   // GroundImage,

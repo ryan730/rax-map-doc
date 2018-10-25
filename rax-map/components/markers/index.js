@@ -103,7 +103,7 @@ const ClusterProps = [
   'renderCluserMarker'
 ];
 
-const IdKey = '__react_amap__';
+const IdKey = '__rax_amap__';
 
 // const MarkerDOM = HTMLDivElement & { markerRef: Object };
 /*
@@ -155,7 +155,7 @@ class Markers extends PureComponent {
   }
 
   /* 创建amap类型的markers
-  * props:react 对象的props
+  * props:rax 对象的props
   * */
   createMarkers(props) {
     const markers = props.markers || [];
@@ -259,7 +259,7 @@ class Markers extends PureComponent {
   }
 
   /*
-  * 创建react类型的markers(渲染所有数据)
+  * 创建rax类型的markers(渲染所有数据)
   * 根据markerReactChildDOM,来渲染所有的markersCache
   * 相当于redraw
   * */
@@ -272,7 +272,7 @@ class Markers extends PureComponent {
   }
 
   /*
-  * 创建react类型的markers(只渲染新数据)
+  * 创建rax类型的markers(只渲染新数据)
   * 根据filterCache(差集),来渲染最新加载的marker
   * 相当于draw
   * */
@@ -286,7 +286,7 @@ class Markers extends PureComponent {
     });
   }
 
-  /* 创建react类型的markers */
+  /* 创建rax类型的markers */
   renderMarkerChild(dom, child) {
     render(<View>{child}</View>, dom);
   }
@@ -491,7 +491,7 @@ class Markers extends PureComponent {
         events.created(this.mapCluster);
       }
     }
-    this.initClusterMarkerWindow();
+    ///this.initClusterMarkerWindow();// ryan+,关闭cluser默认展开的事件自定义
     /// this.bindClusterEvent(events); // ryan+,关闭cluser默认展开的事件自定义
     return this.mapCluster;
   }

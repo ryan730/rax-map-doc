@@ -12,13 +12,13 @@ title: Markers 组件
 Markers 组件大部分属性是静态属性；对坐标点的增加和删除会导致所有的标记点刷新，在点数量较大的情况下比较慢。
 
 不过 Markers 有比较好的聚合展示效果（启用了聚合插件）；虽然是静态属性，但是如果面临复杂的需求你仍然可以在获得高德实例后，参照高德接口自己对实例进行操作。
-而且还提供了两种 `render` 方法让你直接以 React 的方式写标记点的外观。
+而且还提供了两种 `render` 方法让你直接以 Rax 的方式写标记点的外观。
 
 
 
 ## API
 
-> 在阅读以下文档时记得区分 react-amap 创建的 Markers 实例，和高德地图原生的 Marker 实例。
+> 在阅读以下文档时记得区分 rax-amap 创建的 Markers 实例，和高德地图原生的 Marker 实例。
 
 ### 动态属性
 
@@ -33,7 +33,7 @@ Markers 组件大部分属性是静态属性；对坐标点的增加和删除会
 
 | 属性 | 类型 | 默认取值 | 说明 |
 |------|-----|------|-----|
-| render | `Function` | /  | 根据传入的 [MarkerOption](#MarkerOption-配置) 返回一个 React 组件，或者返回`false`  |
+| render | `Function` | /  | 根据传入的 [MarkerOption](#MarkerOption-配置) 返回一个 Rax 组件，或者返回`false`  |
 | events  | `Object` | / | 同 Marker 的事件绑定，但是传入的参数稍有不同，查看[Markers的events属性](#Markers-events-事件) |
 | 其他高德原生 Marker 属性 | 1. 所需属性对应类型<br/>2. 或者一个函数，返回相应类型 | / | 除`extData`外的[其他高德原生 Marker 组件可以配置的属性](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker)；  |
 
@@ -58,7 +58,7 @@ Markers 组件大部分属性是静态属性；对坐标点的增加和删除会
 
 但是，如果你在 Markers 组件的属性上定义了 `render` 函数，`render`函数执行的结果会作为最终外观覆盖其他的属性设定。
 
-同时，我们也在创建后的高德原生 Marker 实例上加载了一个`render`方法，传入一个 React 组件，或者返回 React 组件的函数，就可以刷新标记点的外观。
+同时，我们也在创建后的高德原生 Marker 实例上加载了一个`render`方法，传入一个 Rax 组件，或者返回 Rax 组件的函数，就可以刷新标记点的外观。
 
 
 ### Markers events 事件

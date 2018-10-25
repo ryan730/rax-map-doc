@@ -12,7 +12,7 @@ title: Marker 组件
 
 ## API
 
-> 在阅读以下文档时记得区分 react-amap 创建的 Marker 实例，和高德地图原生的 Marker 实例。
+> 在阅读以下文档时记得区分 Rat-amap 创建的 Marker 实例，和高德地图原生的 Marker 实例。
 
 
 ### 属性列表
@@ -35,7 +35,7 @@ title: Marker 组件
 |extData| 动态属性 | 任意 | / | 用户自定义属性，支持JavaScript API任意数据类型，如Marker的id等 |
 |label| 动态属性 | `{content,offset}` | / | 添加文本标注，content为文本标注的内容，offset为偏移量，左上角为偏移量为（0,0） |
 | events | 动态属性 | `Object` | / | 以键值对形式提供绑定的事件对象，见下方说明 |
-| render | 静态属性 | React 组件 或者返回 React 组件的函数 | / | 【**0.2.2 更新**】render 属性接受一个 React 组件，或者一个方法返回一个 React 组件，会在初始化时渲染为组件的外观。并且会覆盖`children`，`content` 等的设置。 |
+| render | 静态属性 | Rax 组件 或者返回 Rax 组件的函数 | / | 【**0.2.2 更新**】render 属性接受一个 Rax 组件，或者一个方法返回一个 Rax 组件，会在初始化时渲染为组件的外观。并且会覆盖`children`，`content` 等的设置。 |
 
 
 ### 其他静态属性

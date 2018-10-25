@@ -1,47 +1,53 @@
+// @flow
 import {createElement, Component, render, Children, PureComponent, cloneElement, unmountComponentAtNode} from 'rax';
 import View from 'rax-view';
-
 import wrapperGenerator from '../utils/wrapperGenerator'
 import log from '../utils/log'
+// import PolyEditor from '../polyeditor'
 import { toLnglat } from '../utils/common'
+/*
+ * props
+ * {
+ *  __map__ 父级组件传过来的地图实例
+ *
+ * }
+ */
 
 const configurableProps = [
   'path',
-  'extData',
   'draggable',
+  'extData',
 
-  /* 扩展属性*/
-  'visible',
-  'style'
+  /* 本插件扩展的属性*/
+  'style',
+  'visible'
 ]
 
 const allProps = configurableProps.concat([
   'zIndex',
-  'bubble',
-  'showDir'
+  'bubble'
 ])
 
-const LineProps = {
+const PolyProps = {
   path: null,
-  extData: {},
   draggable: false,
-  onInstanceCreated: null,
-  visible: false,
-  style: {},
+  extData: {},
+  style:{},
+  visible:false,
   zIndex: 0,
   bubble: false,
-  showDir: false,
-  __ele__: null,
-  __map__: null,
   events: {},
   children: null,
+  onInstanceCreated: null,
+  __map__: null,
+  __ele__: null,
 }
 
-class Polyline extends PureComponent {
-  static displayName = 'Polyline';
+class Polygon extends PureComponent {
+  static displayName = 'Polygon';
   map;
-  polyline;
   element;
+  polygon;
   setterMap;
   converterMap;
 
@@ -55,13 +61,13 @@ class Polyline extends PureComponent {
         this.setterMap = {
           visible(val) {
             if (val) {
-              self.polyline && self.polyline.show()
+              self.polygon && self.polygon.show()
             } else {
-              self.polyline && self.polyline.hide()
+              self.polygon && self.polygon.hide()
             }
           },
           style(val) {
-            self.polyline.setOptions(val)
+            self.polygon.setOptions(val)
           }
         }
         this.converterMap = {
@@ -72,23 +78,23 @@ class Polyline extends PureComponent {
         this.state = {
           loaded: false
         }
-        this.map = props.__map__;
+        this.map = props.__map__
         this.element = this.map.getContainer()
         setTimeout(() => {
-          this.createMapPolyline(props)
+          this.initMapPolygon(props)
         }, 13)
       }
     }
   }
 
   get instance() {
-    return this.polyline
+    return this.polygon
   }
 
-  createMapPolyline(props) {
+  initMapPolygon(props) {
     const options = this.buildCreateOptions(props)
     options.map = this.map
-    this.polyline = new window.AMap.Polyline(options)
+    this.polygon = new window.AMap.Polygon(options)
     this.setState({
       loaded: true
     })
@@ -127,12 +133,22 @@ class Polyline extends PureComponent {
 
   buildPathValue(path) {
     if (path.length) {
-      if ('getLng' in path[0]) {
+      const firstNode = path[0]
+      if (typeof firstNode[0] === 'number') {
+        return path.map((p) => (toLnglat(p)))
+      }
+      if ('getLng' in firstNode) {
         return path
       }
-      return path.map((p) => (toLnglat(p)))
+      if ('longitude' in firstNode || 'lng' in firstNode) {
+        return path.map((p) => (toLnglat(p)))
+      }
+      if ('length' in firstNode && firstNode.length) {
+        // $FlowFixMe
+        return path.map(ring => this.buildPathValue(ring))
+      }
     }
-    return path
+    return []
   }
 
   renderEditor(children) {
@@ -142,10 +158,10 @@ class Polyline extends PureComponent {
     if (Rax.Children.count(children) !== 1) {
       return null
     }
-    //const child = Rax.Children.only(children)
+    //const child = React.Children.only(children)
     // if (child.type === PolyEditor) {
     //   return React.cloneElement(child, {
-    //     __poly__: this.polyline,
+    //     __poly__: this.polygon,
     //     __map__: this.map
     //   })
     // }
@@ -157,4 +173,4 @@ class Polyline extends PureComponent {
   }
 }
 
-export default wrapperGenerator(Polyline)
+export default wrapperGenerator(Polygon)
