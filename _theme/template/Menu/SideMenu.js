@@ -36,8 +36,11 @@ export default class SideMenu extends React.Component {
   }
   render() {
     const { data, defaultSelectedKey, type} = this.props;
+    const modData = data['rax-map']['modules'];
+    const compData = data['rax-map']['components'];
+    const docData  = Object.assign(modData,compData); // 合并 modules 和 components 文件夹里的组件
     if (type === 'components') {
-      return <ComponentsMenu mode={this.state.mode} data={data['rax-map']['components']} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
+      return <ComponentsMenu mode={this.state.mode} data={docData} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
     } else if (type === 'articles') {
       return <ArticlesMenu mode={this.state.mode} data={data.articles} defaultSelectedKey={defaultSelectedKey} scope={this}/>;
     }

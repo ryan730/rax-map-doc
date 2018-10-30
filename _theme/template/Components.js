@@ -31,6 +31,7 @@ export default class Doc extends React.Component {
 
   render() {
     const props = this.props;
+    console.log('this.propsthis.propsthis.props====',this.props);
     return <Layout route={props.route}>
       <div id="doc">
         <aside id="aside" style={{overflowY: 'auto'}}>

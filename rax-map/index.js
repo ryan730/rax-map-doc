@@ -7,8 +7,8 @@ import Circle from './components/circle';
 import Tip from './components/tip';
 
 import checkZoom from './modules/checkZoom';
-import detailSwiper from './modules/detailSwiper';
-import currentLocation from './modules/currentLocation';
+import DetailSwiper from './modules/DetailSwiper';
+import CurrentLocation from './modules/CurrentLocation';
 import mapServices from './modules/utils/mapServices';
 
 // import Circle from './circle';
@@ -33,9 +33,9 @@ export {
   // GroundImage,
   // MouseTool
   checkZoom,
-  currentLocation,
+  CurrentLocation,
   mapServices,
-  detailSwiper
+  DetailSwiper
 };
 
 export default {
@@ -52,7 +52,7 @@ export default {
   // GroundImage,
   // MouseTool
   checkZoom,
-  currentLocation,
+  CurrentLocation,
   mapServices,
-  detailSwiper
+  DetailSwiper
 };

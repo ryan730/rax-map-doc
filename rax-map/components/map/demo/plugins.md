@@ -45,6 +45,7 @@ class App extends PureComponent{
       'MapType',
       'Scale',
       'OverView',
+      'Geolocation',
       //{
         //name:'ControlBar', // 必须和3Dmap配合使用
         //options:{

@@ -33,7 +33,7 @@ const baseImg = 'data:image/png;base64,\n' +
 const itemStyle = {
   backgroundColor: 'white',
   textAlign: 'center',
-  width: '70%',
+  width: '60%',
   border: '1px solid #ccc',
   borderRadius: 20,
   boxShadow: '1px 1px 10px 0 #ccc',
@@ -96,11 +96,16 @@ const arrowStyle = {
 let scope = null;
 
 const DetailSwiper = (props) => {
+
       const map = props.__map__;
       const mapStore = props.__ele__;
-      const render = props.render;
-      const arrowRender = props.arrowRender;
-      const animationEndHanler = props.animationEndHanler;
+
+      const render = props.render; // 底部 card 的渲染样式
+      const loop = props.loop || true; // card 是否支持轮播
+      const autoPlay = props.autoPlay || false; // 是否支持自动播放
+      const arrowRender = props.arrowRender;// 箭头的渲染样式
+      const animationEndHanler = props.animationEndHanler; // 底部 `card` 每次滑动效果结束触发的事件
+
       const currentZoom = map.getZoom();
 
       /* markers dom 对象个数 */
@@ -171,7 +176,7 @@ const DetailSwiper = (props) => {
 
       return (
           <View style={viewStyle}>
-            <Swiper ref='swiper' autoPlay={false} loop={true} width={1} previewWidth={298} getScope={getScope}
+            <Swiper ref='swiper' autoPlay={autoPlay} loop={loop} width={1} previewWidth={298} getScope={getScope}
                     animationEndHanler={animationEndHanler}>
               {
                 getChildren().map((item) => {

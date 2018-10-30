@@ -16,6 +16,13 @@ module.exports = {
       component: './template/ComponentNodes',
     }]
   }, {
+    path: '/rax-map/modules/:doc',// 这里的 doc 对应的是 rax-map/modules 库里的doc
+    component: './template/Components',
+    childRoutes: [{
+      path: ':children',// 这里的 children 对应的是 rax-map/modules/demo 库里的doc
+      component: './template/ComponentNodes',
+    }]
+  },{
     path: '/articles/:doc',
     component: './template/Articles'
   }, {

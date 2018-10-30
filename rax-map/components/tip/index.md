@@ -1,5 +1,5 @@
 ---
-category: Tip弹框
+category: 覆盖物
 order: 7
 title: Tip 组件
 ---

@@ -1,13 +1,17 @@
 ---
-title: 基本用法2
-order: 2
+title: 基本用法
+order: 1
 ---
 
-本例演示了如何创建一个折线以及动态改变折线的属性
+本例演示了 `marker` 可以以滑动或者自动轮播的方式,切换。
+- 应用场景如下:
+    - 如果对大量 `marker` 用拖动地图的方式,查找会比较难以找到,准确定位
+    - 如果采用滑动下面的,标签 `card` 去滑动选择，会快速定位到目标 `marker`
+    - 相反,如果点击 `marker` 事件,同样也可以切换下面的标签 `card`,做到 `marker` 和 `card` 同步联动。
 
 ```jsx 
 import {Map,Markers,Polyline} from 'rax-map';
-import {detailSwiper as DetailSwiper} from 'rax-map';
+import {DetailSwiper} from 'rax-map';
 import {PureComponent, render} from 'rax';
 import View from 'rax-view';
 import Touchable from 'rax-touchable'; //  导入touch 容器

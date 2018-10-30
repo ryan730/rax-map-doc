@@ -15,8 +15,7 @@ RAX-MAP 目前已经包含的组件如下：
 | [Polygon](/rax-map/components/polygon) | 在地图上显示多边形 |
 | [Polyline](/rax-map/components/polyline) |在地图上显示折线 |
 | [Circle](/rax-map/components/circle) | 在地图上显示圆形 |
-| [GroundImage](/rax-map/components/groundImage) | 在地图上某个边界范围内显示图片 |
-| [InfoPop](/rax-map/components/infoPop) | 在地图上显示信息窗体 |
+| [Tip](/rax-map/components/tip) | 在地图上显示信息窗体 |
 
 ### 术语说明——**动态属性**和**静态属性**的说明
 

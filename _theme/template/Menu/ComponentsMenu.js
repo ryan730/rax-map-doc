@@ -11,14 +11,14 @@ let scope = null;
 const componentOrder = [
   '地图',
   '覆盖物',
-  '信息窗体'
+  '辅助组件'
 ];
 
 const url = location.pathname;
 const index = url.indexOf('/rax-map/');
 const params = url.substring(index,url.length).split('/');
 console.log('params==>',params)
-if (params[1] === 'rax-map' && params[2] === 'components') {
+if (params[1] === 'rax-map' && (params[2] === 'components' || params[2] === 'modules')) {
   params[3] && (whoIsOpen.level1 = params[3]);
   params[4] && (whoIsOpen.level2 = params[4]);
 }
@@ -112,6 +112,7 @@ function getComponentsMenuGroups(data) {
 
 export default function ComponentsMenu(props) {
   const {data, defaultSelectedKey} = props;
+  console.log('ComponentsMenu:::',props);
   scope = props.scope;
   return (<Menu
       mode={props.mode}
