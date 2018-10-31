@@ -1,6 +1,6 @@
 ---
-title: 基本用法
-order: 1
+title: 自定义定位位置
+order: 2
 ---
 
 
@@ -18,7 +18,7 @@ order: 1
 
 > [在线示例]演示内容:
 
-> 本例演示了 启用高德的 `AMap.Geolocation` 插件,定位当前位置。
+> 本例演示了 启用 `Rax-map` 组件,定位当前位置。
 
 ```jsx
  import {Map,CurrentLocation} from 'rax-map';
@@ -50,9 +50,7 @@ class App extends PureComponent{
       'ToolBar'
     ]
     return <div style={{width: '100%', height: '100%'}}>
-      <Map
-        plugins={plugins}
-      >
+      <Map>
       <CurrentLocation></CurrentLocation>
       </Map>
     </div>

@@ -1,4 +1,5 @@
 # -*- coding:UTF-8 -*-
+# 只支持python3,本机python3目录 /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
 
 import os
 
